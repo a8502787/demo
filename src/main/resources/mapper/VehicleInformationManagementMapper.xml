@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gcb.vehiclemanagement.dao.VehicleInformationManagementMapper">
+
+    <insert id="inputFeeInfo">
+        insert into vm_feeinfo (apply_id,vehicle_id,start_time,start_kilometers)
+        values (#{applyId},#{vehicleId},#{startTime},#{startKilometers})
+    </insert>
+
+    <update id="inputFeeInfoWhenReturnVehicle">
+        insert into vm_feeinfo (apply_id,vehicle_id,agent,start_time,end_time,oil_fee,maintenance_fee,
+        parking_fee,forfeit,payment_time,parking_place,start_kilometers,end_kilometers)
+        values (#{applyId},#{vehicleId},#{agent},#{startTime},#{endTime},#{oilFee},#{maintenanceFee},#{parkingFee},#{forfeit},#{paymentTime},#{parkingPlace},#{startKilometers},#{endKilometers})
+    </update>
+
+    <select id="getVehicleFeeInfoByApplyId" resultType="com.gcb.vehiclemanagement.entity.VehicleFeeInfo">
+        select * from vm_feeinfo
+        where apply_id = #{applyId}
+    </select>
+
+    <select id="getAllVehicleBaseInfo" resultType="com.gcb.vehiclemanagement.entity.VehicleBaseInfo">
+        select * from vm_vehicleinfo
+    </select>
+
+    <select id="getAllVehicleBaseInfoCount" resultType="java.lang.Integer">
+        select count(*) from vm_vehicleinfo
+    </select>
+
+    <select id="getVehicleFeeInfo" resultType="com.gcb.vehiclemanagement.entity.VehicleFeeInfo">
+        select * from vm_feeinfo
+        where vehicle_id = #{vehicleId}
+    </select>
+
+    <select id="getVehicleBaseInfo" resultType="com.gcb.vehiclemanagement.entity.VehicleBaseInfo">
+        select * from vm_vehicleinfo
+        where vehicle_id = #{vehicleId}
+    </select>
+</mapper>

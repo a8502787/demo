@@ -1,0 +1,61 @@
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/demo?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC&allowMultiQueries=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  #文件上传大小配置
+  servlet:
+    multipart:
+      max-file-size: 10MB
+mybatis:
+  type-aliases-package: com.gcb.vehiclemanagement.entity
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+pagehelper:
+  helper-dialect: mysql
+  reasonable: false
+  support-methods-arguments: true
+  params:
+server:
+  port: 9999
+
+#定义图片存储目录路径
+#fileDirPath: /home/ewhine/deploy/miip/vehiclemanagement/imgs/
+#广信推送配置
+#sandbox:
+#  acctoken: YIF01T2J_Pzvzna3prQ2hVHe2P_9WF7hODkyekpbx5NJX3iE
+#  #domain: http://10.1.121.254:80
+#  domain: http://10.139.2.234:80
+#  networkid: 2
+#  ocuid: vehicle
+#  ocusecret: 6622a7f435f269d91e60cfe56c4f0eb7
+#  appid: vehicle
+#logging:
+#  pattern:
+#    console: "%d{yyyy-MM-dd-HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"
+#    file: "%d{yyyy-MM-dd} === [%thread] === %-5level === %logger{50} === - %msg%n"
+#  level:
+#    com.gcb.vehiclemanagement: info
+
+############################################################3
+#
+#  图片上传所需参数
+#
+############################################################
+
+##测试环境配置
+#upload:
+#  picture:
+#    server:
+#      username: root
+#      password: rootroot
+#      ip: 10.1.121.254
+#      port: 22
+#      directory: /home/vehiclemanagement/vehiclemanagement_image
+#      url:
+#        prefix: http://10.1.121.254/vehiclemanagement_image/
+logging:
+  level:
+    com.gcb.vehiclemanagement: debug

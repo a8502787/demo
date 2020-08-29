@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gcb.vehiclemanagement.dao.VehicleReservationMapper">
+    <select id="getUserInfoByRole" resultType="com.gcb.vehiclemanagement.entity.UserDeptInfo">
+        select * from vm_dept_user
+        where role = #{role}
+    </select>
+
+    <select id="getRelationByUserId" resultType="java.lang.String">
+        select relation from vm_dept_user
+        where USER_ID = #{userId}
+    </select>
+
+
+    <insert id="applyVehicle_new">
+        insert into vm_vehicleapply (apply_id,applicant_id,applicant_name,department_code,apply_department,vehicle_user,
+        create_time,start_time,end_time,destination,cause,entourage,people_number,contact_phone,status,confirm,finish,pic_url)
+        values (#{applyId},#{applicantId},#{applicantName},#{departmentCode},#{departmentName},#{vehicleUser},#{createTime},#{startTime},
+        #{endTime},#{destination},#{cause},#{entourage},#{peopleNumber},#{contactPhone},#{status},#{confirm},#{finish},#{picUrl})
+    </insert>
+
+    <select id="getVehicleApplyInfoByApplicantId" resultType="com.gcb.vehiclemanagement.entity.VehicleApplyInfo">
+        select * from vm_vehicleapply
+        where applicant_id = #{applicantId}
+        order by create_time desc
+    </select>
+
+    <select id="getVehicleApplyInfoByApplicantIdCount" resultType="java.lang.Integer">
+        select count(*) from vm_vehicleapply
+        where applicant_id = #{applicantId}
+    </select>
+
+    <select id="getVehicleApplyInfoForDriver" resultType="com.gcb.vehiclemanagement.entity.VehicleApplyInfo">
+        select * from vm_vehicleapply
+        where driver_id = #{driverId} and status in ('4','5')
+        order by create_time desc
+    </select>
+
+    <select id="getVehicleApplyInfoForDriverCount" resultType="java.lang.Integer">
+        select count(*) from vm_vehicleapply
+        where driver_id = #{driverId} and status in ('4','5')
+    </select>
+
+    <select id="getUserInfoById" resultType="com.gcb.vehiclemanagement.entity.UserDeptInfo">
+        select * from vm_dept_user
+        where user_id = #{userId}
+    </select>
+
+    <select id="getAllVehicleApplyInfo" resultType="com.gcb.vehiclemanagement.entity.VehicleApplyInfo">
+        select * from vm_vehicleapply
+        order by create_time desc
+    </select>
+
+    <select id="getAllVehicleApplyInfoCount" resultType="java.lang.Integer">
+        select count(*) from vm_vehicleapply
+    </select>
+
+    <select id="getVehicleApplyStatus" resultType="java.lang.String">
+        select status from vm_vehicleapply
+        where apply_id = #{applyId}
+    </select>
+
+    <select id="getVehicleApplyConfirm" resultType="java.lang.String">
+        select confirm from vm_vehicleapply
+        where apply_id = #{applyId}
+    </select>
+
+    <update id="passApprovalByDepartmentLeader">
+        update vm_vehicleapply set status = #{status}
+        where apply_id = #{applyId} and status = #{oldStatus}
+    </update>
+
+    <insert id="insertApprovalHistory">
+        insert into vm_approvalhistory (apply_id,approver_id,suggestion,approval_time,`type`,status)
+        values (#{applyId},#{approverId},#{suggestion},#{approvalTime},#{type},#{status})
+    </insert>
+
+    <select id="getUserRole_new" resultType="java.lang.String">
+        select role from vm_dept_user
+        where user_id = #{userId}
+    </select>
+
+
+
+    <update id="passApprovalByLogistics">
+        update vm_vehicleapply set vehicle_id = #{vehicleId},driver_id = #{driverId},
+        driver_name = #{driverName},status = #{status}
+        where apply_id = #{applyId} and status = #{oldStatus}
+    </update>
+
+    <update id="refuseApproval">
+        update vm_vehicleapply set status = #{status}
+        where apply_id = #{applyId} and status = #{oldStatus}
+    </update>
+
+    <update id="confirmVehicleApplyInfo">
+        update vm_vehicleapply set confirm = #{confirm},finish = #{finish}
+        where apply_id = #{applyId}
+    </update>
+
+    <update id="updateDriverStatus">
+        update vm_dept_user set driver_status = #{status}
+        where user_id = #{driverId}
+    </update>
+
+    <select id="getVehicleIdByVehicleApplyTable" resultType="java.lang.String">
+        select vehicle_id from vm_vehicleapply
+        where apply_id = #{applyId}
+    </select>
+
+    <select id="getVehicleApplyInfoByApplyId" resultType="com.gcb.vehiclemanagement.entity.VehicleApplyInfo">
+        select * from vm_vehicleapply
+        where apply_id = #{applyId}
+    </select>
+
+    <update id="updateVehicleStatus">
+        update vm_vehicleinfo set status = #{status}
+        where vehicle_id = #{vehicleId}
+    </update>
+
+    <update id="updateFinishValue">
+        update vm_vehicleapply set finish = #{finish}
+        where apply_id = #{applyId}
+    </update>
+
+    <update id="confirmReturnVehicle">
+        update vm_vehicleinfo set return_time = #{returnTime},parking_place = #{parkingPlace},
+        kilometers = #{kilometers}
+        where vehicle_id = #{vehicleId}
+    </update>
+
+    <select id="getAvailableVehicleBaseInfo" resultType="com.gcb.vehiclemanagement.entity.VehicleBaseInfo">
+        select * from vm_vehicleinfo
+        where status = #{status}
+    </select>
+
+    <select id="getCommonData" resultType="com.gcb.vehiclemanagement.entity.CommonData">
+        select * from vm_commondata
+        where data_type = #{dataType}
+    </select>
+
+    <select id="getAvailableDriverBaseInfo" resultType="com.gcb.vehiclemanagement.entity.UserDeptInfo">
+        select * from vm_dept_user
+        where driver_status = #{status}
+    </select>
+
+    <select id="getApprovalHistory" resultType="com.gcb.vehiclemanagement.entity.ApprovalHistoryInfo">
+        select * from vm_approvalhistory
+        where apply_id = #{applyId}
+    </select>
+
+    <select id="getUserName" resultType="java.lang.String">
+        select name from vm_dept_user
+        where USER_ID = #{userId}
+    </select>
+
+    <select id="getLoginName" resultType="java.lang.String">
+        select LOGIN_NAME from vm_dept_user
+        where USER_ID = #{userId}
+    </select>
+
+    <select id="getUserIdByRole" resultType="java.lang.Long">
+        select user_id from vm_dept_user
+        where role = #{role}
+    </select>
+
+    <select id="getApplicantIdByVehicleApplyId" resultType="java.lang.Long">
+        select applicant_id from vm_vehicleapply
+        where apply_id = #{applyId}
+    </select>
+
+    <select id="getDriverIdByVehicleApplyId" resultType="java.lang.Long">
+        select driver_id from vm_vehicleapply
+        where apply_id = #{applyId}
+    </select>
+
+    <select id="getUserIdByLoginName" resultType="java.lang.Long">
+        select USER_ID from vm_dept_user
+        where login_name = #{loginName}
+    </select>
+
+    <update id="updateApplyBindPIC" parameterType="java.util.List">
+        <foreach collection="ApplyLoginNameList" item="item" index="index" open="" close="" separator=";">
+            update vm_dept_user
+            <set>
+                relation = #{PICLoginName}
+            </set>
+            where login_name = #{item}
+        </foreach>
+    </update>
+
+    <select id="getApplyByPIC" resultType="com.gcb.vehiclemanagement.entity.UserDeptInfo">
+        select * from vm_dept_user
+        where relation = #{PICLoginName}
+    </select>
+
+    <update id="updateApplyEndTime">
+        update vm_vehicleapply set end_time = #{endTime}
+        where apply_id = #{applyId}
+    </update>
+
+</mapper>

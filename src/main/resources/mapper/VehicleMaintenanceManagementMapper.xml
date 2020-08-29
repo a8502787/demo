@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gcb.vehiclemanagement.dao.VehicleMaintenanceManagementMapper">
+
+    <insert id="applyVehicleMaintenance">
+        insert into vm_maintenanceapply (apply_id,applicant_id,applicant_name,vehicle_id,driver_id,driver_name,create_time,
+        start_time,end_time,destination,cause,maintenance_provider,entourage,contact_phone,status,confirm,finish)
+        values (#{applyId},#{applicantId},#{applicantName},#{vehicleId},#{driverId},#{driverName},#{createTime},#{startTime},
+        #{endTime},#{destination},#{cause},#{maintenanceProvider},#{entourage},#{contactPhone},
+        #{status},#{confirm},#{finish})
+    </insert>
+
+    <select id="getMaintenanceApplyInfoForApplicant" resultType="com.gcb.vehiclemanagement.entity.MaintenanceApplyInfo">
+        select * from vm_maintenanceapply
+        where applicant_id = #{applicantId}
+        order by create_time desc
+    </select>
+
+    <select id="getMaintenanceApplyInfoForApplicantCount" resultType="java.lang.Integer">
+        select count(*) from vm_maintenanceapply
+        where applicant_id = #{applicantId}
+    </select>
+
+    <select id="getMaintenanceApplyInfoForDriver" resultType="com.gcb.vehiclemanagement.entity.MaintenanceApplyInfo">
+        select * from vm_maintenanceapply
+        where applicant_id = #{driverId}
+        UNION
+        select * from vm_maintenanceapply
+        where driver_id = #{driverId} and applicant_id != #{driverId} and status = #{status}
+        order by create_time desc
+    </select>
+
+    <select id="getMaintenanceApplyInfoForDriverCount" resultType="java.lang.Integer">
+        select count(*) from (
+        select * from vm_maintenanceapply
+        where applicant_id = #{driverId}
+        UNION
+        select * from vm_maintenanceapply
+        where driver_id = #{driverId} and applicant_id != #{driverId} and status = #{status}) as a
+    </select>
+
+    <select id="getAllMaintenanceApplyInfo" resultType="com.gcb.vehiclemanagement.entity.MaintenanceApplyInfo">
+        select * from vm_maintenanceapply
+        order by create_time desc
+    </select>
+
+    <select id="getAllMaintenanceApplyInfoCount" resultType="java.lang.Integer">
+        select count(*) from vm_maintenanceapply
+    </select>
+
+    <select id="getMaintenanceApplyStatus" resultType="java.lang.String">
+        select status from vm_maintenanceapply
+        where apply_id = #{applyId}
+    </select>
+
+    <update id="passMaintenanceApproval">
+        update vm_maintenanceapply set driver_id = #{driverId},
+        driver_name = #{driverName},status = #{status}
+        where apply_id = #{applyId} and status = #{oldStatus}
+    </update>
+
+    <update id="refuseMaintenanceApproval">
+        update vm_maintenanceapply set status = #{status}
+        where apply_id = #{applyId} and status = #{oldStatus}
+    </update>
+
+    <update id="confirmMaintenanceApplyInfo">
+        update vm_maintenanceapply set confirm = #{confirm},finish = #{finish}
+        where apply_id = #{applyId}
+    </update>
+
+    <select id="getVehicleIdByMaintenanceApplyTable" resultType="java.lang.String">
+        select vehicle_id from vm_maintenanceapply
+        where apply_id = #{applyId}
+    </select>
+
+    <update id="updateFinishValue">
+        update vm_maintenanceapply set finish = #{finish}
+        where apply_id = #{applyId}
+    </update>
+
+    <select id="getApplicantIdByMaintenanceApplyId" resultType="java.lang.Long">
+        select applicant_id from vm_maintenanceapply
+        where apply_id = #{applyId}
+    </select>
+
+    <select id="getDriverIdByMaintenanceApplyId" resultType="java.lang.Long">
+        select driver_id from vm_maintenanceapply
+        where apply_id = #{applyId}
+    </select>
+
+    <select id="getMaintenanceApplyInfoByApplyId" resultType="com.gcb.vehiclemanagement.entity.MaintenanceApplyInfo">
+        select * from vm_maintenanceapply
+        where apply_id = #{applyId}
+    </select>
+
+    <select id="getMaintenanceApplyConfirm" resultType="java.lang.String">
+        select confirm from vm_maintenanceapply
+        where apply_id = #{applyId}
+    </select>
+
+    <update id="updateMaintenanceApplyEndTime">
+        update vm_maintenanceapply set end_time = #{endTime}
+        where apply_id = #{applyId}
+    </update>
+</mapper>

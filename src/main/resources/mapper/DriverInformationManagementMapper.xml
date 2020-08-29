@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gcb.vehiclemanagement.dao.DriverInformationManagementMapper">
+    <select id="getAllDriverBaseInfo_new" resultType="com.gcb.vehiclemanagement.entity.UserDeptInfo">
+        select * from vm_dept_user
+        where role = #{role}
+    </select>
+
+    <select id="getAllDriverBaseInfoCount_new" resultType="java.lang.Integer">
+        select count(*) from vm_dept_user
+        where role = #{role}
+    </select>
+
+    <select id="getDriverBaseInfo_new" resultType="com.gcb.vehiclemanagement.entity.UserDeptInfo">
+        select * from vm_dept_user
+        where user_id = #{driverId} and role = #{role}
+    </select>
+
+    <select id="getDriverStatus_new" resultType="java.lang.String">
+        select driver_status from vm_dept_user
+        where user_id = #{driverId}
+    </select>
+
+    <select id="getVehicleApplyInfo" resultType="com.gcb.vehiclemanagement.entity.VehicleApplyInfo">
+        select * from vm_vehicleapply
+        where driver_id = #{driverId} and finish = #{finish}
+        order by create_time desc
+    </select>
+
+    <select id="getMaintenanceApplyInfo" resultType="com.gcb.vehiclemanagement.entity.MaintenanceApplyInfo">
+        select * from vm_maintenanceapply
+        where driver_id = #{driverId} and finish = #{finish}
+        order by create_time desc
+    </select>
+
+    <select id="getDemo" parameterType="java.lang.Integer" resultType="com.gcb.vehiclemanagement.entity.Demo">
+        select * from d_test
+        where id = #{id}
+    </select>
+</mapper>

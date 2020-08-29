@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gcb.vehiclemanagement.dao.EntryInformationMapper">
+
+    <insert id="insertUserInfo_new">
+        insert into vm_dept_user (login_name,name,dept_code,dept_id,dept_name,driver_birthday,start_driving_date,driving_type,driver_photo,driver_status,role,relation)
+        values (#{loginName},#{name},#{deptCode},#{deptId},#{deptName},#{driverBirthday},#{startDrivingDate},#{drivingType},#{driverPhoto},#{driverStatus},#{role},#{relation})
+    </insert>
+
+    <select id="getUserId" resultType="java.lang.Long">
+        select USER_ID from vm_dept_user
+        where LOGIN_NAME = #{applicantId}
+    </select>
+
+    <delete id="deleteUserInfo_new">
+        delete from vm_dept_user
+        where user_id = #{userId}
+    </delete>
+
+    <select id="getUserInfoByLoginName" resultType="com.gcb.vehiclemanagement.entity.UserDeptInfo">
+        select * from vm_dept_user
+        where login_name = #{loginName}
+    </select>
+
+    <select id="getAllUserInfo_new" resultType="com.gcb.vehiclemanagement.entity.UserDeptInfo">
+        select * from vm_dept_user
+    </select>
+
+    <select id="getAllUserInfoCount_new" resultType="java.lang.Integer">
+        select count(*) from vm_dept_user
+    </select>
+
+    <update id="updateDriverInfo_new">
+        update vm_dept_user set driver_birthday = #{driverBirthday},start_driving_date = #{startDrivingDate},
+        driving_type = #{drivingType},driver_photo = #{driverPhoto}
+        where user_id = #{userId}
+    </update>
+
+    <insert id="insertVehicleInfo">
+        insert into vm_vehicleinfo (vehicle_id,seat_number,vehicle_type,vehicle_color,purchase_time,insurance_start,
+        vehicle_photo,status,return_time,parking_place,kilometers)
+        values (#{vehicleId},#{seatNumber},#{vehicleType},#{vehicleColor},#{purchaseTime},#{insuranceStart},
+        #{vehiclePhoto},#{status},#{returnTime},#{parkingPlace},#{kilometers})
+    </insert>
+
+    <delete id="deleteVehicleInfo">
+        delete from vm_vehicleinfo
+        where vehicle_id = #{vehicleId}
+    </delete>
+
+    <update id="updateVehicleInfo">
+        update vm_vehicleinfo set seat_number = #{seatNumber},vehicle_type = #{vehicleType},vehicle_color = #{vehicleColor},
+        purchase_time = #{purchaseTime},insurance_start = #{insuranceStart},vehicle_photo = #{vehiclePhoto}
+        where vehicle_id = #{vehicleId}
+    </update>
+
+    <insert id="insertCommonData">
+        insert into vm_commondata (data_type,`data`)
+        values (#{dataType},#{data})
+    </insert>
+
+    <delete id="deleteCommonData">
+        delete from vm_commondata
+        where data_type = #{dataType} and `data` = #{data}
+    </delete>
+</mapper>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gcb.vehiclemanagement.dao.VehicleInformationStatisticsMapper">
+
+    <select id="getVehicleApplyInfoByCombinationQuery" resultType="com.gcb.vehiclemanagement.entity.VehicleApplyInfo">
+        select * from vm_vehicleapply
+        where if (((#{startTime} is not null) and (#{startTime} != "")),
+        start_time > #{startTime},true)
+        and if ((#{vehicleId} is not null) and (#{vehicleId} != ""),vehicle_id = #{vehicleId},true)
+        and if ((#{driverName} is not null) and (#{driverName} != ""),driver_name = #{driverName},true)
+        and if ((#{applyDepartment} is not null) and (#{applyDepartment} != ""),apply_department = #{applyDepartment},true)
+        and if ((#{cause} is not null) and (#{cause} != ""),cause = #{cause},true)
+        and if ((#{vehicleUser} is not null) and (#{vehicleUser} != ""),vehicle_user = #{vehicleUser},true)
+        order by create_time desc
+    </select>
+
+    <select id="getVehicleApplyInfoByCombinationQueryCount" resultType="java.lang.Integer">
+        select count(*) from vm_vehicleapply
+        where if (((#{startTime} is not null) and (#{startTime} != "")),
+        start_time > #{startTime},true)
+        and if ((#{vehicleId} is not null) and (#{vehicleId} != ""),vehicle_id = #{vehicleId},true)
+        and if ((#{driverName} is not null) and (#{driverName} != ""),driver_name = #{driverName},true)
+        and if ((#{applyDepartment} is not null) and (#{applyDepartment} != ""),apply_department = #{applyDepartment},true)
+        and if ((#{cause} is not null) and (#{cause} != ""),cause = #{cause},true)
+        and if ((#{vehicleUser} is not null) and (#{vehicleUser} != ""),vehicle_user = #{vehicleUser},true)
+    </select>
+
+    <select id="getMaintenanceApplyInfoByCombinationQuery" resultType="com.gcb.vehiclemanagement.entity.MaintenanceApplyInfo">
+        select * from vm_maintenanceapply
+        where if (((#{startTime} is not null) and (#{startTime} != "")),
+        start_time > #{startTime},true)
+        and if ((#{vehicleId} is not null) and (#{vehicleId} != ""),vehicle_id = #{vehicleId},true)
+        and if ((#{driverName} is not null) and (#{driverName} != ""),driver_name = #{driverName},true)
+        and if ((#{cause} is not null) and (#{cause} != ""),cause = #{cause},true)
+        order by create_time desc
+    </select>
+
+    <select id="getMaintenanceApplyInfoByCombinationQueryCount" resultType="java.lang.Integer">
+        select count(*) from vm_maintenanceapply
+        where if (((#{startTime} is not null) and (#{startTime} != "")),
+        start_time > #{startTime},true)
+        and if ((#{vehicleId} is not null) and (#{vehicleId} != ""),vehicle_id = #{vehicleId},true)
+        and if ((#{driverName} is not null) and (#{driverName} != ""),driver_name = #{driverName},true)
+        and if ((#{cause} is not null) and (#{cause} != ""),cause = #{cause},true)
+    </select>
+
+    <select id="getVehicleFeeInfoByCombinationQuery" resultType="com.gcb.vehiclemanagement.entity.VehicleFeeInfo">
+        select * from vm_feeinfo
+        where if (((#{startTime} is not null) and (#{startTime} != "")),
+        start_time > #{startTime},true)
+        and if ((#{vehicleId} is not null) and (#{vehicleId} != ""),vehicle_id = #{vehicleId},true)
+    </select>
+
+    <select id="getVehicleFeeInfoByCombinationQueryCount" resultType="java.lang.Integer">
+        select count(*) from vm_feeinfo
+        where if (((#{startTime} is not null) and (#{startTime} != "")),
+        start_time between #{startTime} and #{endTime},true)
+        and if ((#{vehicleId} is not null) and (#{vehicleId} != ""),vehicle_id = #{vehicleId},true)
+    </select>
+</mapper>
